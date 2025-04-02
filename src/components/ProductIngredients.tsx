@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useMemo } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { ProductType, Ingredient } from '../types';
 import { Button, Stack, Group, Image } from '@mantine/core';
@@ -6,7 +6,7 @@ import { capitalizeWords } from '../utils/stringUtils';
 import { getIngredientImage } from '../data/BaseIngredients';
 
 interface Props {
-  product: ProductType; // Product prop now handles both the product and its ingredients
+  product: ProductType;
   stacked?: boolean;
 }
 
@@ -23,20 +23,17 @@ const collectAllBaseIngredients = (
   products: ProductType[]
 ): Ingredient[] => {
   const baseProducts = collectBaseIngredients(currentProduct, products);
-  const reversedBaseProducts = baseProducts.reverse();
-  return reversedBaseProducts.flatMap(p => p.ingredients);
+  return baseProducts.reverse().flatMap(p => p.ingredients);
 };
 
-export default function ProductIngredients(props: Props) {
-  const { product, stacked } = props;
-
+export default function ProductIngredients({ product, stacked }: Props) {
   const productContext = useContext(ProductContext);
   if (!productContext) throw new Error("ProductContext not found.");
   const { products } = productContext;
 
   const [allBaseIngredients, setAllBaseIngredients] = useState<Ingredient[]>([]);
+  const [ingredientImages, setIngredientImages] = useState<Record<string, string>>({});
 
-  // Effect to collect base ingredients when product is available
   useEffect(() => {
     if (product) {
       const ingredients = collectAllBaseIngredients(product, products);
@@ -44,8 +41,24 @@ export default function ProductIngredients(props: Props) {
     }
   }, [product, products]);
 
-  // Merge the base ingredients with the product's own ingredients
-  const allIngredients = [...allBaseIngredients, ...product.ingredients];
+  // Use useMemo to avoid unnecessary recalculations
+  const allIngredients = useMemo(
+    () => [...allBaseIngredients, ...product.ingredients],
+    [allBaseIngredients, product.ingredients]
+  );
+
+  // Fetch ingredient images asynchronously
+  useEffect(() => {
+    async function fetchImages() {
+      const imageMap: Record<string, string> = {};
+      for (const ingredient of allIngredients) {
+        imageMap[ingredient.name] = await getIngredientImage(ingredient.name);
+      }
+      setIngredientImages(imageMap);
+    }
+
+    fetchImages();
+  }, [allIngredients]);
 
   return stacked ? (
     <Stack bg="var(--mantine-color-body)" align="stretch" justify="center" gap="sm">
@@ -55,20 +68,17 @@ export default function ProductIngredients(props: Props) {
     </Stack>
   ) : (
     <Group mt="lg">
-      {allIngredients.map((ingredient, key) => {
-        const ingredientImage = getIngredientImage(ingredient.name);
-        return (
-          <Button key={key} size="md">
-            <Image
-              width={30}
-              height={30}
-              src={ingredientImage}
-              style={{ objectFit: "contain" }}
-            />
-            {ingredient.name}
-          </Button>
-        );
-      })}
+      {allIngredients.map((ingredient, key) => (
+        <Button key={key} size="md">
+          <Image
+            width={30}
+            height={30}
+            src={ingredientImages[ingredient.name] || null}
+            style={{ objectFit: "contain" }}
+          />
+          {ingredient.name}
+        </Button>
+      ))}
     </Group>
   );
 }
