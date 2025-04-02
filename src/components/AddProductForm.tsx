@@ -7,7 +7,8 @@ import {
   Select,
   MultiSelect
 } from '@mantine/core';
-import type {ProductType, Ingredient} from '../types';
+import { ProductType } from '../types/products';
+import { Ingredient } from '../types/ingredients';
 import { getIngredients } from '../data/BaseIngredients';
 
 interface AddProductFormProps {

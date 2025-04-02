@@ -15,20 +15,22 @@ import ProductDetails from './components/ProductDetails';
 import AddProductForm from './components/AddProductForm';
 import SearchBar from './components/SearchBar';
 import { ProductContext } from './context/ProductContext';
-import { ProductType } from './types';
+import { ProductType } from './types/products';
 
 export default function App() {
   const productContext = useContext(ProductContext);
-  if (!productContext) throw new Error("useProduct must be used within a ProductProvider");
+  if (!productContext) {
+    throw new Error("useProduct must be used within a ProductProvider");
+  }
   const { products, setProducts } = productContext;
 
-  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [ selectedProduct, setSelectedProduct ] = useState<ProductType | null>(null);
+  const [ showAddForm, setShowAddForm ] = useState(false);
+  const [ searchQuery, setSearchQuery ] = useState("");
 
   const addProduct = (newProduct: ProductType) => {
-    setProducts([...products, newProduct]);
-    localStorage.setItem("products", JSON.stringify([...products, newProduct]));
+    setProducts([ ...products, newProduct ]);
+    localStorage.setItem("products", JSON.stringify([ ...products, newProduct ]));
     setShowAddForm(false)
   }
 
@@ -46,7 +48,9 @@ export default function App() {
     // Function to check base product ingredients recursively
     const checkBaseProductIngredients = (currentProduct: ProductType): boolean => {
       const baseProduct = products.find(p => p.name === currentProduct.baseProduct);
-      if (!baseProduct) return false;  // No base product, stop recursion
+      if (!baseProduct) {
+        return false;
+      }  // No base product, stop recursion
 
       // Check ingredients of the base product
       const baseIngredientsMatch = baseProduct.ingredients.some((ingredient) =>
@@ -100,9 +104,9 @@ export default function App() {
             }}>Add Product</Button>
             <Space style={{ display: !showAddForm ? 'block' : 'none' }} h="md" />
             {showAddForm ? (
-              <AddProductForm onAddProduct={addProduct} products={products} />
+              <AddProductForm onAddProduct={addProduct} products={products}/>
             ) : selectedProduct ? (
-              <ProductDetails product={selectedProduct} />
+              <ProductDetails product={selectedProduct}/>
             ) : (
               <>
                 <Text size="lg">

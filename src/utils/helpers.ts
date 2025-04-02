@@ -7,11 +7,13 @@ let manifest: Record<string, ManifestEntry> | null = null;
 export const loadManifest = async () => {
   if (!manifest && import.meta.env.MODE === 'production') {
     try {
-      const data = await import('../../dist/.vite/manifest.json');
-      manifest = data.default;
+      const response = await fetch('/.vite/manifest.json');
+      if (!response.ok) return;
+      manifest = await response.json();
       return manifest;
     } catch (error) {
-      console.error("Error loading manifest:", error);
+      console.error("Manifest not found, skipping:", error);
+      return null;
     }
   }
 };

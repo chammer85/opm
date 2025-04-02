@@ -1,6 +1,6 @@
 import defaultImage from '../assets/products/baby-blue/baby-blue-icon.png';
 import { Card, Image, Text, useMantineTheme } from '@mantine/core';
-import { ProductType } from '../types.ts';
+import { ProductType } from '../types/products';
 import { useMediaQuery } from '@mantine/hooks';
 import ProductIngredients from './ProductIngredients';
 

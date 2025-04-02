@@ -1,7 +1,7 @@
 import defaultImage from '../assets/products/baby-blue/baby-blue-icon.png';
 import { Text, Image, useMantineTheme } from '@mantine/core';
-import { ProductType } from '../types';
-import {useMediaQuery} from '@mantine/hooks';
+import { ProductType } from '../types/products';
+import { useMediaQuery } from '@mantine/hooks';
 import ProductIngredients from './ProductIngredients';
 
 interface ProductDetailsProps {
@@ -34,7 +34,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
       <Text size="lg" my="sm" fw="bold">
         Ingredients:
       </Text>
-      <ProductIngredients product={product} stacked={true} />
+      <ProductIngredients product={product} stacked={true}/>
     </div>
   );
 }

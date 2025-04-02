@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState, useMemo } from 'react';
 import { ProductContext } from '../context/ProductContext';
-import { ProductType, Ingredient } from '../types';
 import { Button, Stack, Group, Image } from '@mantine/core';
 import { capitalizeWords } from '../utils/stringUtils';
 import { getIngredientImage } from '../data/BaseIngredients';
+import { ProductType } from '../types/products';
+import { Ingredient } from '../types/ingredients.ts';
 
 interface Props {
   product: ProductType;
@@ -15,7 +16,7 @@ const collectBaseIngredients = (
   products: ProductType[]
 ): ProductType[] => {
   const baseProduct = products.find(p => p.name === currentProduct.baseProduct);
-  return baseProduct ? [baseProduct, ...collectBaseIngredients(baseProduct, products)] : [];
+  return baseProduct ? [ baseProduct, ...collectBaseIngredients(baseProduct, products) ] : [];
 };
 
 const collectAllBaseIngredients = (
@@ -28,23 +29,25 @@ const collectAllBaseIngredients = (
 
 export default function ProductIngredients({ product, stacked }: Props) {
   const productContext = useContext(ProductContext);
-  if (!productContext) throw new Error("ProductContext not found.");
+  if (!productContext) {
+    throw new Error("ProductContext not found.");
+  }
   const { products } = productContext;
 
-  const [allBaseIngredients, setAllBaseIngredients] = useState<Ingredient[]>([]);
-  const [ingredientImages, setIngredientImages] = useState<Record<string, string>>({});
+  const [ allBaseIngredients, setAllBaseIngredients ] = useState<Ingredient[]>([]);
+  const [ ingredientImages, setIngredientImages ] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (product) {
       const ingredients = collectAllBaseIngredients(product, products);
       setAllBaseIngredients(ingredients);
     }
-  }, [product, products]);
+  }, [ product, products ]);
 
   // Use useMemo to avoid unnecessary recalculations
   const allIngredients = useMemo(
-    () => [...allBaseIngredients, ...product.ingredients],
-    [allBaseIngredients, product.ingredients]
+    () => [ ...allBaseIngredients, ...product.ingredients ],
+    [ allBaseIngredients, product.ingredients ]
   );
 
   // Fetch ingredient images asynchronously
@@ -58,10 +61,11 @@ export default function ProductIngredients({ product, stacked }: Props) {
     }
 
     fetchImages();
-  }, [allIngredients]);
+  }, [ allIngredients ]);
 
   return stacked ? (
-    <Stack bg="var(--mantine-color-body)" align="stretch" justify="center" gap="sm">
+    <Stack bg="var(--mantine-color-body)" align="stretch" justify="center"
+           gap="sm">
       {allIngredients.map((ingredient, key) => (
         <Button key={key}>{capitalizeWords(ingredient.name)}</Button>
       ))}

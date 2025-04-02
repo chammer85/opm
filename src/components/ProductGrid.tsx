@@ -1,7 +1,7 @@
 import {
   SimpleGrid,
 } from '@mantine/core';
-import type {ProductType} from '../types';
+import { ProductType } from '../types/products';
 import Product from './Product';
 
 interface ProductGridProps {

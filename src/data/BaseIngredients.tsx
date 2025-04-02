@@ -1,5 +1,5 @@
 import { ComboboxData } from '@mantine/core';
-import { loadManifest } from '../utils/helpers.ts';
+import { loadManifest } from '../utils/helpers';
 
 // Ingredients list
 const ingredients = [
@@ -40,8 +40,9 @@ export async function getIngredientImage(ingredient: string): Promise<string> {
     if (manifest) {
       const ingredientIconKey = `src/assets/ingredients/${cleanedIngredient}/${cleanedIngredient}-icon.png`;
 
-      // Check if the image exists in the manifest and return its hashed path
+      // Check if the image exists in the manifest and return its hashed path.
       if (manifest[ingredientIconKey]) {
+        console.log(manifest[ingredientIconKey].file);
         return manifest[ingredientIconKey].file;
       }
 
