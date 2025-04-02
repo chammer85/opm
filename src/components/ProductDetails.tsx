@@ -1,4 +1,4 @@
-import defaultImage from '../assets/products/babyblue/BabyBlue_Icon.png';
+import defaultImage from '../assets/products/baby-blue/baby-blue-icon.png';
 import { Text, Image, useMantineTheme } from '@mantine/core';
 import { ProductType } from '../types';
 import {useMediaQuery} from '@mantine/hooks';

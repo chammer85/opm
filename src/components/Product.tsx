@@ -1,12 +1,14 @@
-import defaultImage from '../assets/products/babyblue/BabyBlue_Icon.png';
+import defaultImage from '../assets/products/baby-blue/baby-blue-icon.png';
 import { Card, Image, Text, useMantineTheme } from '@mantine/core';
 import { ProductType } from '../types.ts';
 import { useMediaQuery } from '@mantine/hooks';
 import ProductIngredients from './ProductIngredients';
+
 interface ProductProps {
   product: ProductType;
   onSelectProduct: (product: ProductType) => void;
 }
+
 export default function Product({ product, onSelectProduct }: ProductProps) {
   const theme = useMantineTheme();
   const prefersDarkScheme = useMediaQuery('(prefers-color-scheme: dark)');
@@ -18,7 +20,10 @@ export default function Product({ product, onSelectProduct }: ProductProps) {
       shadow="sm"
       p="lg"
       onClick={() => onSelectProduct(product)}
-      style={{cursor: "pointer"}}
+      style={{
+        cursor: "pointer",
+        minWidth: "320px"
+      }}
     >
       <Card.Section
         style={{
@@ -44,7 +49,7 @@ export default function Product({ product, onSelectProduct }: ProductProps) {
       <Text size="md">
         ${product.price}
       </Text>
-      <ProductIngredients product={product} />
+      <ProductIngredients product={product}/>
     </Card>
   )
 }

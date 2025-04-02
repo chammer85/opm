@@ -1,5 +1,5 @@
 import { ComboboxData } from '@mantine/core';
-import { ManifestEntry } from '*.json';
+import { loadManifest } from '../utils/helpers.ts';
 
 // Ingredients list
 const ingredients = [
@@ -24,21 +24,6 @@ const ingredients = [
   'Viagra',
 ];
 
-// Variable to hold the manifest data
-let manifest: Record<string, ManifestEntry> | null = null;
-
-// Function to load the manifest dynamically
-const loadManifest = async () => {
-  if (!manifest && import.meta.env.MODE === 'production') {
-    try {
-      const data = await import('../../dist/.vite/manifest.json');
-      manifest = data.default;
-    } catch (error) {
-      console.error("Error loading manifest:", error);
-    }
-  }
-};
-
 // Function to get the ingredient image (returns a Promise)
 export async function getIngredientImage(ingredient: string): Promise<string> {
   const isProd = import.meta.env.MODE === 'production';
@@ -49,7 +34,7 @@ export async function getIngredientImage(ingredient: string): Promise<string> {
   const devImages = import.meta.glob('/src/assets/ingredients/**/*.png', { eager: true });
 
   if (isProd) {
-    await loadManifest();
+    const manifest = await loadManifest();
 
     // Ensure manifest is loaded before proceeding.
     if (manifest) {
