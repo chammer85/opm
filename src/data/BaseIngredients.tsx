@@ -42,6 +42,7 @@ const loadManifest = async () => {
 // Function to get the ingredient image (returns a Promise)
 export async function getIngredientImage(ingredient: string): Promise<string> {
   const isProd = import.meta.env.MODE === 'production';
+  const baseUrl = import.meta.env.BASE_URL || '/';
   const cleanedIngredient = cleanIngredientName(ingredient);
 
   // Development images (Vite glob imports)
@@ -68,7 +69,7 @@ export async function getIngredientImage(ingredient: string): Promise<string> {
   const basePath = `/assets/ingredients/${cleanedIngredient}/${cleanedIngredient}-icon.png`;
   const foundPath = Object.keys(devImages).find((path) => path.includes(basePath));
 
-  return foundPath ? foundPath.replace(/^\/src/, '/opm/src') : '';
+  return foundPath ? foundPath.replace(/^\/src/, baseUrl + 'src') : '';
 }
 
 const cleanIngredientName = (ingredient: string) => (
