@@ -82,13 +82,13 @@ export default function App(): ReactElement {
           aside={{
             width: 300,
             breakpoint: 'lg',
-            collapsed: { mobile: !showAddForm },
+            collapsed: { mobile: !showAddForm && !selectedProduct },
           }}
           header={{
             height: 60,
           }}
           footer={{
-            height: showAddForm ? 0 : 60,
+            height: showAddForm || selectedProduct ? 0 : 60,
           }}
         >
           <AppShell.Header>
@@ -116,15 +116,7 @@ export default function App(): ReactElement {
               </Flex>
             </Container>
           </AppShell.Header>
-          <AppShell.Aside
-            p="lg"
-            onClick={event => {
-              const target = event.target as HTMLElement;
-              if (target.nodeName === 'ASIDE') {
-                setShowAddForm(false);
-              }
-            }}
-          >
+          <AppShell.Aside p="lg">
             <Button
               style={{ display: !showAddForm ? 'block' : 'none' }}
               onClick={() => {
@@ -153,7 +145,7 @@ export default function App(): ReactElement {
           <AppShell.Footer
             p="sm"
             hiddenFrom="md"
-            style={{ display: showAddForm ? 'none' : 'block' }}
+            style={{ display: showAddForm || selectedProduct ? 'none' : 'block' }}
           >
             <Button
               w="100%"
