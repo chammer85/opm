@@ -1,5 +1,4 @@
-import type React from "react";
-import { useState } from "react";
+import React, { useContext, useState } from 'react';
 import {
   TextInput,
   NumberInput,
@@ -8,8 +7,9 @@ import {
   MultiSelect
 } from '@mantine/core';
 import { ProductType } from '../types/products';
-import { Ingredient } from '../types/ingredients';
-import { getIngredients } from '../data/BaseIngredients';
+import { IngredientsContext } from '../context/IngredientsContext';
+import { getIngredientsOptions } from '../utils/ingredients';
+import { IngredientType } from '../types/ingredients';
 
 interface AddProductFormProps {
   onAddProduct: (product: ProductType) => void;
@@ -20,10 +20,17 @@ export default function AddProductForm({
   onAddProduct,
   products
 }: AddProductFormProps) {
-  const [name, setName] = useState("Thunder Cock");
-  const [price, setPrice] = useState<number | string>(420);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [baseProduct, setBaseProduct] = useState<string | null>(null);
+  const [ name, setName ] = useState("Thunder Cock");
+  const [ price, setPrice ] = useState<number | string>(420);
+  const [ baseProduct, setBaseProduct ] = useState<string | null>(null);
+  const [ selectedIngredients, setSelectedIngredients ] = useState<IngredientType[]>([]);
+
+  // Get ingredients from context
+  const ingredientsContext = useContext(IngredientsContext);
+  if (!ingredientsContext) {
+    throw new Error("useProduct must be used within a ProductProvider");
+  }
+  const { ingredients } = ingredientsContext;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +39,7 @@ export default function AddProductForm({
         id: Date.now().toString(),
         name,
         price,
-        ingredients,
+        ingredients: selectedIngredients,
         baseProduct: baseProduct || undefined,
       }
       onAddProduct(newProduct);
@@ -55,12 +62,12 @@ export default function AddProductForm({
       />
       <MultiSelect
         label="Ingredients"
-        data={getIngredients()}
-        value={ingredients.map((i) => i.name)}
-        onChange={(values) => setIngredients(values.map((v) => ({
+        data={getIngredientsOptions(ingredients)}
+        value={selectedIngredients.map((i) => i.name)}
+        onChange={(values) => setSelectedIngredients(values.map((v) => ({
           id: v,
           name: v,
-          quantity: 1
+          image: v
         })))}
         hidePickedOptions
         searchable

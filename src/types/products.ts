@@ -1,7 +1,13 @@
-import { SortOrderType } from '../constants/sortOptions.ts';
-import { Ingredient } from './ingredients.ts';
+import { SortOrderType } from '../constants/sortOptions';
+import { IngredientType } from './ingredients';
 
-export interface ProductContextType {
+export interface BaseProductType {
+  id: string;
+  name: string;
+  image: string;
+}
+
+export interface ProductsContextType {
   products: ProductType[];
   setProducts: (products: ProductType[]) => void;
   sortOrder: SortOrderType;
@@ -13,7 +19,7 @@ export interface ProductType {
   name: string;
   price: string | number;
   image?: string;
-  ingredients: Ingredient[];
+  ingredients: IngredientType[];
   baseProduct?: string;
 }
 

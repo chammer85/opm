@@ -14,15 +14,15 @@ import ProductGrid from './components/ProductGrid';
 import ProductDetails from './components/ProductDetails';
 import AddProductForm from './components/AddProductForm';
 import SearchBar from './components/SearchBar';
-import { ProductContext } from './context/ProductContext';
+import { ProductsContext } from './context/ProductsContext';
 import { ProductType } from './types/products';
 
 export default function App() {
-  const productContext = useContext(ProductContext);
-  if (!productContext) {
+  const productsContext = useContext(ProductsContext);
+  if (!productsContext) {
     throw new Error("useProduct must be used within a ProductProvider");
   }
-  const { products, setProducts } = productContext;
+  const { products, setProducts } = productsContext;
 
   const [ selectedProduct, setSelectedProduct ] = useState<ProductType | null>(null);
   const [ showAddForm, setShowAddForm ] = useState(false);
