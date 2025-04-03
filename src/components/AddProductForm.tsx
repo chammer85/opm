@@ -2,7 +2,7 @@ import React, { ReactElement, useContext, useState } from 'react';
 import { TextInput, NumberInput, Button, Select, MultiSelect } from '@mantine/core';
 import { ProductType } from '../types/products';
 import { IngredientsContext } from '../context/IngredientsContext';
-import { getIngredientsOptions } from '../utils/ingredients';
+import { cleanIngredientName, getIngredientsOptions } from '../utils/ingredients';
 import { getIngredientsById, IngredientType } from '../types/ingredients';
 
 interface AddProductFormProps {
@@ -31,7 +31,7 @@ export default function AddProductForm({
     e.preventDefault();
     if (name && price !== '' && selectedIngredients.length > 0) {
       const newProduct: ProductType = {
-        id: Date.now().toString(),
+        id: `${cleanIngredientName(name)}_${Date.now().toString()}`,
         name,
         price,
         ingredients: selectedIngredients,
