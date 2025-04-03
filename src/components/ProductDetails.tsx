@@ -1,15 +1,14 @@
-import defaultImage from '../assets/products/baby-blue/baby-blue-icon.png';
 import { Text, Image, useMantineTheme } from '@mantine/core';
 import { ProductType } from '../types/products';
 import { useMediaQuery } from '@mantine/hooks';
 import ProductIngredients from './ProductIngredients';
-import React from 'react';
+import { ReactElement } from 'react';
 
 interface ProductDetailsProps {
   product: ProductType;
 }
 
-export default function ProductDetails({ product }: ProductDetailsProps): React.ReactElement {
+export default function ProductDetails({ product }: ProductDetailsProps): ReactElement {
   const theme = useMantineTheme();
   const prefersDarkScheme = useMediaQuery('(prefers-color-scheme: dark)');
   const backgroundColor = prefersDarkScheme ? theme.colors.dark[8] : theme.colors.blue[6];
@@ -17,7 +16,7 @@ export default function ProductDetails({ product }: ProductDetailsProps): React.
   return (
     <div>
       <Image
-        src={product.image || defaultImage}
+        src={product.image || null}
         width={120}
         height={120}
         alt={product.name}

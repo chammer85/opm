@@ -4,20 +4,23 @@ import { ProductType } from '../types/products';
 import { IngredientsContext } from '../context/IngredientsContext';
 import { cleanIngredientName, getIngredientsOptions } from '../utils/ingredients';
 import { getIngredientsById, IngredientType } from '../types/ingredients';
+import { ProductsContext } from '../context/ProductsContext';
 
 interface AddProductFormProps {
   onAddProduct: (product: ProductType) => void;
-  products: ProductType[];
 }
 
-export default function AddProductForm({
-  onAddProduct,
-  products,
-}: AddProductFormProps): ReactElement {
+export default function AddProductForm({ onAddProduct }: AddProductFormProps): ReactElement {
   const [name, setName] = useState('Thunder Cock');
   const [price, setPrice] = useState<number | string>(420);
   const [baseProduct, setBaseProduct] = useState<string | null>(null);
   const [selectedIngredients, setSelectedIngredients] = useState<IngredientType[]>([]);
+
+  const productsContext = useContext(ProductsContext);
+  if (!productsContext) {
+    throw new Error('useProduct must be used within a ProductProvider');
+  }
+  const { products } = productsContext;
 
   // Get ingredients from context
   const ingredientsContext = useContext(IngredientsContext);

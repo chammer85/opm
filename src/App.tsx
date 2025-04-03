@@ -16,8 +16,10 @@ import AddProductForm from './components/AddProductForm';
 import SearchBar from './components/SearchBar';
 import { ProductsContext } from './context/ProductsContext';
 import { ProductType } from './types/products';
+import { useMediaQuery } from '@mantine/hooks';
 
 export default function App(): ReactElement {
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const productsContext = useContext(ProductsContext);
   if (!productsContext) {
     throw new Error('useProduct must be used within a ProductProvider');
@@ -25,7 +27,7 @@ export default function App(): ReactElement {
   const { products, setProducts } = productsContext;
 
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
-  const [showAddForm, setShowAddForm] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(isMobile);
   const [searchQuery, setSearchQuery] = useState('');
 
   const addProduct = (newProduct: ProductType): void => {
@@ -75,31 +77,54 @@ export default function App(): ReactElement {
       <ColorSchemeScript defaultColorScheme="auto" />
       <MantineProvider defaultColorScheme="auto">
         <AppShell
+          w="100%"
           padding="lg"
           aside={{
             width: 300,
-            breakpoint: 'sm',
-            collapsed: { mobile: true },
+            breakpoint: 'lg',
+            collapsed: { mobile: !showAddForm },
           }}
           header={{
             height: 60,
           }}
+          footer={{
+            height: showAddForm ? 0 : 60,
+          }}
         >
           <AppShell.Header>
-            <Container h={60} size="fluid" ps="lg" pe="0">
-              <Flex gap="lg" justify="space-between" align="center" w="100%">
-                <Box style={{ flex: '1 1 auto', maxWidth: 'calc(100% - 300px)' }}>
+            <Container size="fluid" ps="lg" pe={isMobile ? 'lg' : 0}>
+              <Flex
+                gap={isMobile ? 'xs' : 'lg'}
+                justify={isMobile ? 'center' : 'space-between'}
+                align="center"
+                direction="row"
+                w="100%"
+              >
+                <Box
+                  style={{
+                    flex: isMobile ? '100%' : '1 1 auto',
+                    maxWidth: isMobile ? '100%' : 'calc(100% - 300px)',
+                  }}
+                >
                   <SearchBar onSearch={setSearchQuery} />
                 </Box>
-                <Flex gap="lg" flex="0 0 300px" justify="center">
-                  <Text fw="bold" size="lg">
-                    Schedule One: OPM
+                <Flex gap="lg" flex={isMobile ? '0 0 auto' : '0 0 300px'} justify="center">
+                  <Text fw="bold" size="lg" lh={1}>
+                    <span hidden={isMobile}>Schedule One:</span> OPM
                   </Text>
                 </Flex>
               </Flex>
             </Container>
           </AppShell.Header>
-          <AppShell.Aside p="lg">
+          <AppShell.Aside
+            p="lg"
+            onClick={event => {
+              const target = event.target as HTMLElement;
+              if (target.nodeName === 'ASIDE') {
+                setShowAddForm(false);
+              }
+            }}
+          >
             <Button
               style={{ display: !showAddForm ? 'block' : 'none' }}
               onClick={() => {
@@ -110,7 +135,7 @@ export default function App(): ReactElement {
             </Button>
             <Space style={{ display: !showAddForm ? 'block' : 'none' }} h="md" />
             {showAddForm ? (
-              <AddProductForm onAddProduct={addProduct} products={products} />
+              <AddProductForm onAddProduct={addProduct} />
             ) : selectedProduct ? (
               <ProductDetails product={selectedProduct} />
             ) : (
@@ -122,9 +147,24 @@ export default function App(): ReactElement {
               </>
             )}
           </AppShell.Aside>
-          <AppShell.Main>
+          <AppShell.Main w="100%">
             <ProductGrid products={filteredProducts} onSelectProduct={handleSelectProduct} />
           </AppShell.Main>
+          <AppShell.Footer
+            p="sm"
+            hiddenFrom="md"
+            style={{ display: showAddForm ? 'none' : 'block' }}
+          >
+            <Button
+              w="100%"
+              style={{ display: !showAddForm ? 'block' : 'none' }}
+              onClick={() => {
+                setShowAddForm(true);
+              }}
+            >
+              Add Product
+            </Button>
+          </AppShell.Footer>
         </AppShell>
       </MantineProvider>
     </>

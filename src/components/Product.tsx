@@ -23,7 +23,6 @@ export default function Product({ product, onSelectProduct }: ProductProps): Rea
       onClick={() => onSelectProduct(product)}
       style={{
         cursor: 'pointer',
-        minWidth: '320px',
       }}
     >
       <Card.Section

@@ -7,10 +7,10 @@ interface SearchBarProps {
 
 export default function SearchBar({ onSearch }: SearchBarProps): ReactElement {
   return (
-    <Flex h={60} justify="center" align="center" direction="column">
+    <Flex w="100%" h={60} justify="center" align="center" direction="column">
       <TextInput
         w="100%"
-        placeholder="Search products..."
+        placeholder="🔎 Search products..."
         onChange={e => onSearch(e.currentTarget.value)}
       />
     </Flex>

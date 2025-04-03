@@ -10,7 +10,11 @@ interface ProductGridProps {
 
 export default function ProductGrid({ products, onSelectProduct }: ProductGridProps): ReactElement {
   return (
-    <SimpleGrid cols={4} spacing="lg">
+    <SimpleGrid
+      cols={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
+      spacing={{ base: 10, sm: 'xl' }}
+      verticalSpacing={{ base: 'md', sm: 'xl' }}
+    >
       {products.map((product, key) => (
         <Product key={key} product={product} onSelectProduct={onSelectProduct} />
       ))}
