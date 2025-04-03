@@ -62,7 +62,7 @@ export default function AddProductForm({ onAddProduct }: AddProductFormProps): R
       <MultiSelect
         label="Ingredients"
         data={getIngredientsOptions(ingredients)}
-        value={selectedIngredients.map(i => i.name)}
+        value={selectedIngredients.map(i => i.id)}
         onChange={(ingredientIds: string[]) => {
           const selected = ingredientIds
             .map(id => ingredientsById[id])

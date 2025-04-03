@@ -157,7 +157,6 @@ export default function App(): ReactElement {
           >
             <Button
               w="100%"
-              style={{ display: !showAddForm ? 'block' : 'none' }}
               onClick={() => {
                 setShowAddForm(true);
               }}
