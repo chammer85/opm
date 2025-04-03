@@ -1,3 +1,4 @@
+import defaultImage from '../assets/products/baby-blue/baby-blue-icon.png';
 import { Text, Image, useMantineTheme } from '@mantine/core';
 import { ProductType } from '../types/products';
 import { useMediaQuery } from '@mantine/hooks';
@@ -16,7 +17,7 @@ export default function ProductDetails({ product }: ProductDetailsProps): ReactE
   return (
     <div>
       <Image
-        src={product.image || null}
+        src={product.image || defaultImage}
         width={120}
         height={120}
         alt={product.name}
