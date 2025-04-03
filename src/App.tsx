@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, ReactElement } from 'react';
 import {
   MantineProvider,
   AppShell,
@@ -8,7 +8,7 @@ import {
   Button,
   ColorSchemeScript,
   Container,
-  Space
+  Space,
 } from '@mantine/core';
 import ProductGrid from './components/ProductGrid';
 import ProductDetails from './components/ProductDetails';
@@ -17,32 +17,32 @@ import SearchBar from './components/SearchBar';
 import { ProductsContext } from './context/ProductsContext';
 import { ProductType } from './types/products';
 
-export default function App() {
+export default function App(): ReactElement {
   const productsContext = useContext(ProductsContext);
   if (!productsContext) {
-    throw new Error("useProduct must be used within a ProductProvider");
+    throw new Error('useProduct must be used within a ProductProvider');
   }
   const { products, setProducts } = productsContext;
 
-  const [ selectedProduct, setSelectedProduct ] = useState<ProductType | null>(null);
-  const [ showAddForm, setShowAddForm ] = useState(false);
-  const [ searchQuery, setSearchQuery ] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const addProduct = (newProduct: ProductType) => {
-    setProducts([ ...products, newProduct ]);
-    localStorage.setItem("products", JSON.stringify([ ...products, newProduct ]));
-    setShowAddForm(false)
-  }
+  const addProduct = (newProduct: ProductType): void => {
+    setProducts([...products, newProduct]);
+    localStorage.setItem('products', JSON.stringify([...products, newProduct]));
+    setShowAddForm(false);
+  };
 
-  const handleSelectProduct = (product: ProductType) => {
+  const handleSelectProduct = (product: ProductType): void => {
     setSelectedProduct(product);
     setShowAddForm(false);
   };
 
   // Check product name, price, and ingredients
-  const filteredProducts = products.filter((product) => {
-    const productIngredientsMatch = product.ingredients.some((ingredient) =>
-      ingredient.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProducts = products.filter(product => {
+    const productIngredientsMatch = product.ingredients.some(ingredient =>
+      ingredient.name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
     // Function to check base product ingredients recursively
@@ -50,11 +50,11 @@ export default function App() {
       const baseProduct = products.find(p => p.name === currentProduct.baseProduct);
       if (!baseProduct) {
         return false;
-      }  // No base product, stop recursion
+      } // No base product, stop recursion
 
       // Check ingredients of the base product
-      const baseIngredientsMatch = baseProduct.ingredients.some((ingredient) =>
-        ingredient.name.toLowerCase().includes(searchQuery.toLowerCase())
+      const baseIngredientsMatch = baseProduct.ingredients.some(ingredient =>
+        ingredient.name.toLowerCase().includes(searchQuery.toLowerCase()),
       );
 
       // Recursively check base products
@@ -78,7 +78,7 @@ export default function App() {
           padding="lg"
           aside={{
             width: 300,
-            breakpoint: "sm",
+            breakpoint: 'sm',
             collapsed: { mobile: true },
           }}
           header={{
@@ -100,14 +100,19 @@ export default function App() {
             </Container>
           </AppShell.Header>
           <AppShell.Aside p="lg">
-            <Button style={{ display: !showAddForm ? 'block' : 'none' }} onClick={() => {
-              setShowAddForm(true);
-            }}>Add Product</Button>
+            <Button
+              style={{ display: !showAddForm ? 'block' : 'none' }}
+              onClick={() => {
+                setShowAddForm(true);
+              }}
+            >
+              Add Product
+            </Button>
             <Space style={{ display: !showAddForm ? 'block' : 'none' }} h="md" />
             {showAddForm ? (
-              <AddProductForm onAddProduct={addProduct} products={products}/>
+              <AddProductForm onAddProduct={addProduct} products={products} />
             ) : selectedProduct ? (
-              <ProductDetails product={selectedProduct}/>
+              <ProductDetails product={selectedProduct} />
             ) : (
               <>
                 <Text size="lg">
@@ -123,6 +128,5 @@ export default function App() {
         </AppShell>
       </MantineProvider>
     </>
-  )
+  );
 }
-

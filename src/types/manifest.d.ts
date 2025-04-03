@@ -1,4 +1,4 @@
-declare module "*.json" {
+declare module '*.json' {
   export interface ManifestEntry {
     file: string;
     src: string;

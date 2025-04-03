@@ -19,5 +19,5 @@ export const data: BaseProductType[] = [
   { id: 'green-crack', name: 'Green Crack', image: greenCrackIcon },
   { id: 'meth', name: 'Meth', image: methIcon },
   { id: 'og-kush', name: 'OG Kush', image: ogKushIcon },
-  { id: 'sour-diesel', name: 'Sour Diesel', image: sourDieselIcon }
+  { id: 'sour-diesel', name: 'Sour Diesel', image: sourDieselIcon },
 ];

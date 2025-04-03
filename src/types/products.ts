@@ -22,4 +22,3 @@ export interface ProductType {
   ingredients: IngredientType[];
   baseProduct?: string;
 }
-

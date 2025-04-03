@@ -8,4 +8,4 @@ export default defineConfig({
   },
   base: '/opm/',
   plugins: [react()],
-})
+});

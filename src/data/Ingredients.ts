@@ -45,5 +45,5 @@ export const data: IngredientType[] = [
   { id: 'paracetamol', name: 'Paracetamol', image: paracetamolIcon },
   { id: 'phosphorus', name: 'Phosphorus', image: phosphorusIcon },
   { id: 'pseudo', name: 'Pseudo', image: pseudoIcon },
-  { id: 'viagra', name: 'Viagra', image: viagraIcon }
+  { id: 'viagra', name: 'Viagra', image: viagraIcon },
 ];

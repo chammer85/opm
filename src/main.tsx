@@ -10,8 +10,8 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ProductsProvider>
       <IngredientsProvider>
-        <App/>
+        <App />
       </IngredientsProvider>
     </ProductsProvider>
   </StrictMode>,
-)
+);
