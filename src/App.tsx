@@ -79,7 +79,7 @@ export default function App() {
           aside={{
             width: 300,
             breakpoint: "sm",
-            // collapsed: { mobile: true}
+            collapsed: { mobile: true},
           }}
           header={{
             height: 60,
