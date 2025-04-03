@@ -3,7 +3,7 @@ import { TextInput, NumberInput, Button, Select, MultiSelect } from '@mantine/co
 import { ProductType } from '../types/products';
 import { IngredientsContext } from '../context/IngredientsContext';
 import { getIngredientsOptions } from '../utils/ingredients';
-import { IngredientType } from '../types/ingredients';
+import { getIngredientsById, IngredientType } from '../types/ingredients';
 
 interface AddProductFormProps {
   onAddProduct: (product: ProductType) => void;
@@ -25,6 +25,7 @@ export default function AddProductForm({
     throw new Error('useProduct must be used within a ProductProvider');
   }
   const { ingredients } = ingredientsContext;
+  const ingredientsById = getIngredientsById(ingredients);
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
@@ -59,15 +60,17 @@ export default function AddProductForm({
         label="Ingredients"
         data={getIngredientsOptions(ingredients)}
         value={selectedIngredients.map(i => i.name)}
-        onChange={values =>
-          setSelectedIngredients(
-            values.map(v => ({
-              id: v,
-              name: v,
-              image: v,
-            })),
-          )
-        }
+        onChange={(ingredientIds: string[]) => {
+          const selected = ingredientIds
+            .map(id => ingredientsById[id])
+            .filter((ingredient): ingredient is IngredientType => Boolean(ingredient))
+            .map(ingredient => ({
+              id: ingredient.id,
+              name: ingredient.name,
+              image: ingredient.image,
+            }));
+          setSelectedIngredients(selected);
+        }}
         hidePickedOptions
         searchable
         required
