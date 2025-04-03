@@ -78,7 +78,8 @@ export default function App() {
           padding="lg"
           aside={{
             width: 300,
-            breakpoint: "sm"
+            breakpoint: "sm",
+            // collapsed: { mobile: true}
           }}
           header={{
             height: 60,
