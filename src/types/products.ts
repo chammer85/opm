@@ -12,6 +12,7 @@ export interface ProductsContextType {
   setProducts: (products: ProductType[]) => void;
   sortOrder: SortOrderType;
   setSortOrder: (order: SortOrderType) => void;
+  deleteProduct: (id: string) => void;
 }
 
 export interface ProductType {

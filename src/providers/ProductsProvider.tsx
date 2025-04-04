@@ -39,7 +39,7 @@ export const ProductsProvider = ({ children }: { children: ReactNode }): ReactEl
         setProducts,
         sortOrder,
         setSortOrder,
-        deleteProduct, // Expose the deleteProduct function
+        deleteProduct,
       }}
     >
       {children}
