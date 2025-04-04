@@ -24,7 +24,7 @@ export default function App(): ReactElement {
   if (!productsContext) {
     throw new Error('useProduct must be used within a ProductProvider');
   }
-  const { products, setProducts, deleteProduct } = productsContext;
+  const { products, setProducts } = productsContext;
 
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
   const [showAddForm, setShowAddForm] = useState(isMobile);
@@ -140,7 +140,7 @@ export default function App(): ReactElement {
             )}
           </AppShell.Aside>
           <AppShell.Main w="100%">
-            <ProductGrid products={filteredProducts} onSelectProduct={handleSelectProduct} onDeleteProduct={deleteProduct} />
+            <ProductGrid products={filteredProducts} onSelectProduct={handleSelectProduct} />
           </AppShell.Main>
           <AppShell.Footer
             p="sm"

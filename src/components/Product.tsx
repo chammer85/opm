@@ -3,18 +3,24 @@ import { Card, Image, Text, Button, useMantineTheme } from '@mantine/core';
 import { ProductType } from '../types/products';
 import { useMediaQuery } from '@mantine/hooks';
 import ProductIngredients from './ProductIngredients';
-import { ReactElement } from 'react';
+import { ReactElement, useContext } from 'react';
+import { ProductsContext } from '../context/ProductsContext';
 
 interface ProductProps {
   product: ProductType;
   onSelectProduct: (product: ProductType) => void;
-  onDeleteProduct: (productId: string) => void; // Add this prop
 }
 
-export default function Product({ product, onSelectProduct, onDeleteProduct }: ProductProps): ReactElement {
+export default function Product({ product, onSelectProduct }: ProductProps): ReactElement {
   const theme = useMantineTheme();
   const prefersDarkScheme = useMediaQuery('(prefers-color-scheme: dark)');
   const backgroundColor = prefersDarkScheme ? theme.colors.dark[7] : theme.colors.blue[6];
+
+  const productsContext = useContext(ProductsContext);
+  if (!productsContext) {
+    throw new Error('useProduct must be used within a ProductProvider');
+  }
+  const {deleteProduct } = productsContext;
 
   return (
     <Card
@@ -51,7 +57,7 @@ export default function Product({ product, onSelectProduct, onDeleteProduct }: P
         mt="sm"
         onClick={(e) => {
           e.stopPropagation(); // Prevent triggering the card's onClick
-          onDeleteProduct(product.id);
+          deleteProduct(product.id);
         }}
       >
         DELETE
