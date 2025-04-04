@@ -17,6 +17,7 @@ import SearchBar from './components/SearchBar';
 import { ProductsContext } from './context/ProductsContext';
 import { ProductType } from './types/products';
 import { useMediaQuery } from '@mantine/hooks';
+import { IconArrowLeft } from '@tabler/icons-react';
 
 export default function App(): ReactElement {
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -34,6 +35,11 @@ export default function App(): ReactElement {
     setProducts([...products, newProduct]);
     localStorage.setItem('products', JSON.stringify([...products, newProduct]));
     setShowAddForm(false);
+  };
+
+  const handleCloseAside = (): void => {
+    setShowAddForm(false);
+    setSelectedProduct(null);
   };
 
   const handleSelectProduct = (product: ProductType): void => {
@@ -79,19 +85,18 @@ export default function App(): ReactElement {
         <AppShell
           w="100%"
           padding="lg"
+          header={{
+            height: isMobile && (showAddForm || selectedProduct) ? 0 : 60,
+          }}
           aside={{
             width: 300,
             breakpoint: 'lg',
             collapsed: { mobile: !showAddForm && !selectedProduct },
           }}
-          header={{
-            height: 60,
-          }}
-          footer={{
-            height: showAddForm || selectedProduct ? 0 : 60,
-          }}
         >
-          <AppShell.Header>
+          <AppShell.Header
+            style={{ display: isMobile && (showAddForm || selectedProduct) ? 'none' : 'block' }}
+          >
             <Container size="fluid" ps="lg" pe={isMobile ? 'lg' : 0}>
               <Flex
                 gap={isMobile ? 'xs' : 'lg'}
@@ -118,25 +123,38 @@ export default function App(): ReactElement {
           </AppShell.Header>
           <AppShell.Aside p="lg">
             <Button
-              style={{ display: !showAddForm ? 'block' : 'none' }}
+              style={{ display: showAddForm || selectedProduct ? 'none' : 'block' }}
               onClick={() => {
                 setShowAddForm(true);
               }}
             >
               Add Product
             </Button>
+            <Flex
+              w="100%"
+              justify="flex-start"
+              align="center"
+              direction="row"
+              style={{
+                display: showAddForm || selectedProduct ? 'flex' : 'none',
+                paddingBottom: '1rem',
+                marginBottom: '1rem',
+                borderBottom: '1px solid var(--app-shell-border-color)',
+              }}
+              onClick={handleCloseAside}
+            >
+              <IconArrowLeft size={28} style={{ marginRight: '.5rem' }} />
+              <Text size="lg" fw="bold">
+                {showAddForm ? 'Add Product' : 'Product Details'}
+              </Text>
+            </Flex>
             <Space style={{ display: !showAddForm ? 'block' : 'none' }} h="md" />
             {showAddForm ? (
               <AddProductForm onAddProduct={addProduct} />
             ) : selectedProduct ? (
               <ProductDetails product={selectedProduct} />
             ) : (
-              <>
-                <Text size="lg">
-                  <strong>Product Details:</strong>
-                </Text>
-                <Text>Select a product to view details...</Text>
-              </>
+              <Text>Select a product to view details...</Text>
             )}
           </AppShell.Aside>
           <AppShell.Main w="100%">

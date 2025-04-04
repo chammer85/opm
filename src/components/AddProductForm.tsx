@@ -1,5 +1,5 @@
 import React, { ReactElement, useContext, useState } from 'react';
-import { TextInput, NumberInput, Button, Select, MultiSelect } from '@mantine/core';
+import { TextInput, NumberInput, Button, Select, MultiSelect, Text } from '@mantine/core';
 import { ProductType } from '../types/products';
 import { IngredientsContext } from '../context/IngredientsContext';
 import { cleanIngredientName, getIngredientsOptions } from '../utils/ingredients';
@@ -89,7 +89,9 @@ export default function AddProductForm({ onAddProduct }: AddProductFormProps): R
         clearable
       />
       <Button w="100%" type="submit" mt="md">
-        Add Product
+        <Text fw="bold" size="md">
+          Save Product
+        </Text>
       </Button>
     </form>
   );
