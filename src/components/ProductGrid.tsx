@@ -11,7 +11,7 @@ interface ProductGridProps {
 export default function ProductGrid({ products, onSelectProduct }: ProductGridProps): ReactElement {
   return (
     <SimpleGrid
-      cols={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
+      cols={{ base: 1, lg: 2, xl: 3 }}
       spacing={{ base: 10, sm: 'xl' }}
       verticalSpacing={{ base: 'md', sm: 'xl' }}
     >
