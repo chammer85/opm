@@ -47,6 +47,10 @@ export default function App(): ReactElement {
     setShowAddForm(false);
   };
 
+  const handleDeletedProduct = () => {
+    setSelectedProduct(null);
+  }
+
   // Check product name, price, and ingredients
   const filteredProducts = products.filter(product => {
     const productIngredientsMatch = product.ingredients.some(ingredient =>
@@ -158,7 +162,7 @@ export default function App(): ReactElement {
             )}
           </AppShell.Aside>
           <AppShell.Main w="100%">
-            <ProductGrid products={filteredProducts} onSelectProduct={handleSelectProduct} />
+            <ProductGrid products={filteredProducts} onSelectProduct={handleSelectProduct} onDeleteProduct={handleDeletedProduct} />
           </AppShell.Main>
           <AppShell.Footer
             p="sm"
