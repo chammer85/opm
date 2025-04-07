@@ -3,7 +3,7 @@ import { Card, Image, Text, CloseButton, useMantineTheme } from '@mantine/core';
 import { ProductType } from '../types/products';
 import { useMediaQuery } from '@mantine/hooks';
 import ProductIngredients from './ProductIngredients';
-import { ReactElement, useContext, useState } from 'react';
+import { ReactElement, useContext } from 'react';
 import { ProductsContext } from '../context/ProductsContext';
 
 interface ProductProps {
@@ -15,7 +15,6 @@ interface ProductProps {
 export default function Product({ product, onSelectProduct, onDeleteProduct }: ProductProps): ReactElement {
   const theme = useMantineTheme();
   const prefersDarkScheme = useMediaQuery('(prefers-color-scheme: dark)');
-  const isMobile = useMediaQuery('(max-width: 768px)');
   const backgroundColor = prefersDarkScheme ? theme.colors.dark[7] : theme.colors.blue[6];
 
   const productsContext = useContext(ProductsContext);
