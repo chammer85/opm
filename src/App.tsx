@@ -26,7 +26,6 @@ export default function App(): ReactElement {
   }
   const { products, setProducts, selectedProduct, setSelectedProduct } = productsContext;
 
-  // const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
   const [showAddForm, setShowAddForm] = useState(isMobile);
   const [searchQuery, setSearchQuery] = useState('');
 

@@ -15,8 +15,7 @@ export const ProductsProvider = ({ children }: { children: ReactNode }): ReactEl
   const [sortOrder, setSortOrder] = useState<SortOrderType>(SORT_ORDERS.DESCENDING);
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
 
-
-  // Function to delete a product by its id
+  // Delete product by id and clear selected product if it matches deleted product
   const deleteProduct = (id: string) => {
     setProducts((prevProducts) => {
       const updatedProducts = prevProducts.filter((product) => product.id !== id);
