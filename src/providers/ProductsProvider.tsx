@@ -13,6 +13,8 @@ export const ProductsProvider = ({ children }: { children: ReactNode }): ReactEl
   });
 
   const [sortOrder, setSortOrder] = useState<SortOrderType>(SORT_ORDERS.DESCENDING);
+  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
+
 
   // Function to delete a product by its id
   const deleteProduct = (id: string) => {
@@ -23,6 +25,10 @@ export const ProductsProvider = ({ children }: { children: ReactNode }): ReactEl
       }
       return updatedProducts;
     });
+
+    if (selectedProduct?.id === id) {
+      setSelectedProduct(null);
+    }
   };
 
   // Automatically sort products when sorting order changes
@@ -40,6 +46,8 @@ export const ProductsProvider = ({ children }: { children: ReactNode }): ReactEl
         sortOrder,
         setSortOrder,
         deleteProduct,
+        selectedProduct,
+        setSelectedProduct,
       }}
     >
       {children}

@@ -24,9 +24,9 @@ export default function App(): ReactElement {
   if (!productsContext) {
     throw new Error('useProduct must be used within a ProductProvider');
   }
-  const { products, setProducts } = productsContext;
+  const { products, setProducts, selectedProduct, setSelectedProduct } = productsContext;
 
-  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
+  // const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
   const [showAddForm, setShowAddForm] = useState(isMobile);
   const [searchQuery, setSearchQuery] = useState('');
 

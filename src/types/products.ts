@@ -13,6 +13,8 @@ export interface ProductsContextType {
   sortOrder: SortOrderType;
   setSortOrder: (order: SortOrderType) => void;
   deleteProduct: (id: string) => void;
+  selectedProduct: ProductType | null;
+  setSelectedProduct: (product: ProductType | null) => void;
 }
 
 export interface ProductType {
