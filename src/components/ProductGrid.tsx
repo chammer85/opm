@@ -9,7 +9,7 @@ interface ProductGridProps {
   onDeleteProduct: (arg0: null) => void;
 }
 
-export default function ProductGrid({ products, onSelectProduct, onDeleteProduct }: ProductGridProps): ReactElement {
+export default function ProductGrid({ products, onSelectProduct }: ProductGridProps): ReactElement {
   return (
     <SimpleGrid
       cols={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
@@ -17,7 +17,7 @@ export default function ProductGrid({ products, onSelectProduct, onDeleteProduct
       verticalSpacing={{ base: 'md', sm: 'xl' }}
     >
       {products.map((product, key) => (
-        <Product key={key} product={product} onSelectProduct={onSelectProduct} onDeleteProduct={onDeleteProduct} />
+        <Product key={key} product={product} onSelectProduct={onSelectProduct} />
       ))}
     </SimpleGrid>
   );

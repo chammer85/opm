@@ -9,10 +9,9 @@ import { ProductsContext } from '../context/ProductsContext';
 interface ProductProps {
   product: ProductType;
   onSelectProduct: (product: ProductType) => void;
-  onDeleteProduct: (arg0: null) => void;
 }
 
-export default function Product({ product, onSelectProduct, onDeleteProduct }: ProductProps): ReactElement {
+export default function Product({ product, onSelectProduct }: ProductProps): ReactElement {
   const theme = useMantineTheme();
   const prefersDarkScheme = useMediaQuery('(prefers-color-scheme: dark)');
   const backgroundColor = prefersDarkScheme ? theme.colors.dark[7] : theme.colors.blue[6];
@@ -62,10 +61,15 @@ export default function Product({ product, onSelectProduct, onDeleteProduct }: P
           top: '10px',
           right: '10px',
         }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = theme.colors.red[6];
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.color = '';
+        }}
         onClick={(e) => {
           e.stopPropagation();
           deleteProduct(product.id);
-          onDeleteProduct(null);
         }}
       />
     </Card>
