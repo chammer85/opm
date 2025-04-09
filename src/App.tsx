@@ -25,9 +25,8 @@ export default function App(): ReactElement {
   if (!productsContext) {
     throw new Error('useProduct must be used within a ProductProvider');
   }
-  const { products, setProducts } = productsContext;
+  const { products, setProducts, selectedProduct, setSelectedProduct } = productsContext;
 
-  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
   const [showAddForm, setShowAddForm] = useState(isMobile);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -46,6 +45,10 @@ export default function App(): ReactElement {
     setSelectedProduct(product);
     setShowAddForm(false);
   };
+
+  const handleDeletedProduct = () => {
+    setSelectedProduct(null);
+  }
 
   // Check product name, price, and ingredients
   const filteredProducts = products.filter(product => {
@@ -158,7 +161,7 @@ export default function App(): ReactElement {
             )}
           </AppShell.Aside>
           <AppShell.Main w="100%">
-            <ProductGrid products={filteredProducts} onSelectProduct={handleSelectProduct} />
+            <ProductGrid products={filteredProducts} onSelectProduct={handleSelectProduct} onDeleteProduct={handleDeletedProduct} />
           </AppShell.Main>
           <AppShell.Footer
             p="sm"

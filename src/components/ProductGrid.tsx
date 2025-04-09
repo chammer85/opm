@@ -6,6 +6,7 @@ import { ReactElement } from 'react';
 interface ProductGridProps {
   products: ProductType[];
   onSelectProduct: (product: ProductType) => void;
+  onDeleteProduct: (arg0: null) => void;
 }
 
 export default function ProductGrid({ products, onSelectProduct }: ProductGridProps): ReactElement {
